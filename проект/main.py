@@ -800,29 +800,6 @@ async def on_startup(_):
         print("✅ База данных готова")
         print(f"⏳ Анекдотов на модерации: {pending_count}")
 
-        # Проверяем количество анекдотов по темам
-        try:
-            stats = db.get_themes_statistics()
-
-            if stats:
-                print("\n📊 Анекдоты по темам:")
-                for stat in stats:
-                    name = stat.get("name", "Неизвестно")
-                    count = stat.get("count", 0)
-                    approved = stat.get("approved", 0)
-                    total = stat.get("total", count)
-
-                    if "approved" in stat and "total" in stat:
-                        print(f"  {name}: {approved}/{total} (одобрено/всего)")
-                    else:
-                        print(f"  {name}: {count}")
-            else:
-                print("\n📊 Нет данных по темам")
-
-        except (ValueError, KeyError, AttributeError) as e:
-            print(f"⚠️ Не удалось получить статистику тем: {e}")
-            traceback.print_exc()
-
     print("\n🎯 **Доступные функции:**")
     print("🎲 Новый анекдот - персонализированные рекомендации")
     print("➕ Добавить анекдот - добавить свой анекдот")
