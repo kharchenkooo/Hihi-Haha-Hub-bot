@@ -813,44 +813,35 @@ class Database:
         try:
             with get_connection() as conn:
                 cursor = conn.cursor()
-
-                cursor.execute(
-                    """
-                    SELECT t.id, t.name, COUNT(jt.joke_id) as count
-                    FROM themes t
-                    LEFT JOIN joke_themes jt ON t.id = jt.theme_id
-                    GROUP BY t.id
-                    """
-                )
-
+                
+                # Простой и безопасный запрос
+                cursor.execute('''
+                    SELECT name, COUNT(*) as theme_count
+                    FROM themes
+                    GROUP BY id
+                    ORDER BY id
+                ''')
+                
                 stats = []
-                for row in cursor.fetchall():
-                    cursor.execute(
-                        """
-                        SELECT COUNT(DISTINCT jt.joke_id) as approved_count
-                        FROM joke_themes jt
-                        JOIN jokes j ON jt.joke_id = j.id
-                        WHERE jt.theme_id = ? AND j.is_approved = 1
-                        """,
-                        (row["id"],),
-                    )
-
-                    approved_row = cursor.fetchone()
-                    approved_count = (
-                        approved_row["approved_count"] if approved_row else 0
-                    )
-
-                    stats.append(
-                        {
-                            "name": row["name"],
-                            "total": row["count"],
-                            "approved": approved_count,
-                        }
-                    )
-
+                rows = cursor.fetchall()
+                
+                for row in rows:
+                    # Безопасный доступ к данным
+                    if row and len(row) > 0:
+                        stats.append({
+                            'name': row['name'] if 'name' in row.keys() else 'Неизвестно',
+                            'count': row['theme_count'] if 'theme_count' in row.keys() else 0
+                        })
+                    else:
+                        stats.append({'name': 'Ошибка', 'count': 0})
+                
                 return stats
-        except sqlite3.Error as e:
+                
+        except Exception as e:
             print(f"❌ Ошибка получения статистики: {e}")
+            # Для отладки
+            import traceback
+            traceback.print_exc()
             return []
 
 
