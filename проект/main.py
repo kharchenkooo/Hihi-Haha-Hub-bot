@@ -62,16 +62,6 @@ class AddJokeStates(StatesGroup):
     waiting_for_confirmation = State()
 
 
-class TestPreferencesStates(StatesGroup):
-    """
-    Состояния для тестирования предпочтений.
-
-    :ivar testing: Состояние тестирования предпочтений
-    """
-
-    testing = State()
-
-
 def get_main_keyboard():
     """
     Создает основную клавиатуру бота.
