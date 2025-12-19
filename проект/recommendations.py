@@ -374,26 +374,6 @@ class ThemeBasedRecommender:
 
         return profile
 
-    def reset_user_history(self, user_id):
-        """
-        Сбросить историю просмотров пользователя.
-
-        :param user_id: ID пользователя
-        :type user_id: int
-        :returns: Результат сброса
-        :rtype: bool
-        """
-        try:
-            if user_id in self.user_view_history:
-                del self.user_view_history[user_id]
-                print(f"✅ История пользователя {user_id} сброшена")
-                return True
-            return False
-
-        except KeyError:
-            print(f"⚠️ Пользователь {user_id} не найден в истории")
-            return False
-
     def get_system_stats(self):
         """
         Получить статистику работы рекомендательной системы.
