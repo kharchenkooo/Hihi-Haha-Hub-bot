@@ -3,8 +3,6 @@
 """
 import unittest
 from pathlib import Path
-
-# Импорты для тестирования вынесены на уровень модуля
 import sqlite3
 import random
 import asyncio
@@ -23,12 +21,12 @@ class TestProjectStructure(unittest.TestCase):
     def test_project_files_exist(self):
         """Тест 1: Проверка наличия основных файлов проекта."""
         required_files = [
-            "main.py",  # ВАШ файл бота называется main.py
-            "database_sqlite.py",  # База данных
-            "recommendations.py",  # Рекомендательная система
-            "test_database.py",  # Тесты базы данных
-            "test_recommendations.py",  # Тесты рекомендаций
-            "test_bot_structure.py",  # Этот файл
+            "main.py",  
+            "database_sqlite.py",  
+            "recommendations.py", 
+            "test_database.py",  
+            "test_recommendations.py", 
+            "test_bot_structure.py",
         ]
 
         for file in required_files:

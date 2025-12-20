@@ -16,7 +16,6 @@ class TestThemeBasedRecommender(unittest.TestCase):
 
     def test_recommender_initialization(self):
         """Тест 1: Проверка инициализации рекомендательной системы."""
-        # Создаем экземпляр
         recommender_instance = ThemeBasedRecommender()
 
         # Проверяем атрибуты
@@ -44,7 +43,6 @@ class TestThemeBasedRecommender(unittest.TestCase):
 
     def test_score_to_probability_conversion(self):
         """Тест 3: Преобразование оценок (-1..1) в вероятности (0..1)."""
-        # Тестовые данные (формула из кода: (score + 1) / 2)
         test_cases = [
             (-1.0, 0.0),  # Не нравится -> 0% вероятность
             (-0.5, 0.25),  # Скорее не нравится -> 25%
@@ -54,7 +52,6 @@ class TestThemeBasedRecommender(unittest.TestCase):
         ]
 
         for score, expected_prob in test_cases:
-            # Формула из вашего кода
             calculated_prob = (score + 1) / 2
             self.assertAlmostEqual(calculated_prob, expected_prob, places=2)
 
