@@ -173,13 +173,15 @@ class Database:
                     (
                         "Черный юмор",
                         "🔞",
-                        "Чёрный юмор — это анекдоты про то, что вызывает ужас.",
+                        "Чёрный юмор — это анекдоты про то, "
+                        "что вызывает ужас.",
                     ),
                     ("Разное", "🎭", "Разные анекдоты"),
                 ]
 
                 cursor.executemany(
-                    "INSERT OR IGNORE INTO themes (name, emoji, description) VALUES (?, ?, ?)",
+                    "INSERT OR IGNORE INTO themes "
+                    "(name, emoji, description) VALUES (?, ?, ?)",
                     themes,
                 )
 
@@ -203,7 +205,8 @@ class Database:
         jokes_with_themes = [
             {
                 "text": "Доктор, я съел пиццу вместе с упаковкой. Я умру? "
-                "— Ну, все когда-нибудь умрут... — Все умрут! Ужас, что я наделал!",
+                "— Ну, все когда-нибудь умрут... — Все умрут! "
+                "Ужас, что я наделал!",
                 "themes": [1, 2],  # Рабочие, Школьные
             },
             {
@@ -220,18 +223,21 @@ class Database:
 
         for joke_data in jokes_with_themes:
             cursor.execute(
-                "INSERT INTO jokes (text) VALUES (?)", (joke_data["text"],)
+                "INSERT INTO jokes (text) VALUES (?)",
+                (joke_data["text"],)
             )
             joke_id = cursor.lastrowid
 
             # Добавляем связи с темами
             for theme_id in joke_data["themes"]:
                 cursor.execute(
-                    "INSERT INTO joke_themes (joke_id, theme_id) VALUES (?, ?)",
+                    "INSERT INTO joke_themes "
+                    "(joke_id, theme_id) VALUES (?, ?)",
                     (joke_id, theme_id),
                 )
 
-        print(f"✅ Добавлено {len(jokes_with_themes)} начальных анекдотов с темами")
+        print(f"✅ Добавлено {len(jokes_with_themes)} "
+              f"начальных анекдотов с темами")
 
     def get_or_create_user(self, telegram_id, username, first_name, last_name):
         """
@@ -270,8 +276,8 @@ class Database:
 
                 cursor.execute(
                     """
-                    INSERT INTO users 
-                    (telegram_id, username, first_name, last_name) 
+                    INSERT INTO users
+                    (telegram_id, username, first_name, last_name)
                     VALUES (?, ?, ?, ?)
                     """,
                     (telegram_id, username, first_name, last_name),
@@ -282,14 +288,15 @@ class Database:
                 for theme_id in range(1, 6):  # 5 тем
                     cursor.execute(
                         """
-                        INSERT INTO user_preferences 
-                        (user_id, theme_id, score) 
+                        INSERT INTO user_preferences
+                        (user_id, theme_id, score)
                         VALUES (?, ?, 0.0)
                         """,
                         (user_id, theme_id),
                     )
 
-                print(f"✅ Создан пользователь: {first_name} (ID: {user_id})")
+                print(f"✅ Создан пользователь: "
+                      f"{first_name} (ID: {user_id})")
 
                 return {
                     "id": user_id,
@@ -327,14 +334,15 @@ class Database:
 
                 if theme_id:
                     query = """
-                        SELECT j.id, j.text 
+                        SELECT j.id, j.text
                         FROM jokes j
                         JOIN joke_themes jt ON j.id = jt.joke_id
                         WHERE j.is_approved = 1 AND jt.theme_id = ?
                     """
                     params = [theme_id]
                 else:
-                    query = "SELECT id, text FROM jokes WHERE is_approved = 1"
+                    query = ("SELECT id, text FROM jokes "
+                             "WHERE is_approved = 1")
                     params = []
 
                 if excluded_ids:
@@ -425,7 +433,8 @@ class Database:
                 "корова",
                 "попугай",
             ],
-            4: ["смерть", "умер", "Штирлиц", "Мюллер", "бар", "проститутка", "негр"],
+            4: ["смерть", "умер", "Штирлиц", "Мюллер",
+                "бар", "проститутка", "негр"],
             5: [],  # Разное - по умолчанию
         }
 
@@ -459,8 +468,8 @@ class Database:
                 cursor = conn.cursor()
                 cursor.execute(
                     """
-                    INSERT INTO jokes 
-                    (text, author_id, is_approved, status) 
+                    INSERT INTO jokes
+                    (text, author_id, is_approved, status)
                     VALUES (?, ?, 0, 'pending')
                     """,
                     (text, author_id),
@@ -471,13 +480,13 @@ class Database:
                 themes = self.classify_joke(text)
                 for theme_id in themes:
                     cursor.execute(
-                        "INSERT INTO joke_themes (joke_id, theme_id) VALUES (?, ?)",
+                        "INSERT INTO joke_themes "
+                        "(joke_id, theme_id) VALUES (?, ?)",
                         (joke_id, theme_id),
                     )
 
-                print(
-                    f"✅ Пользовательский анекдот добавлен: ID={joke_id}, Темы={themes}"
-                )
+                print(f"✅ Пользовательский анекдот добавлен: "
+                      f"ID={joke_id}, Темы={themes}")
 
                 return {
                     "joke_id": joke_id,
@@ -506,7 +515,8 @@ class Database:
                     """
                     SELECT t.id, t.name, t.emoji, up.score, up.interactions
                     FROM themes t
-                    LEFT JOIN user_preferences up ON t.id = up.theme_id AND up.user_id = ?
+                    LEFT JOIN user_preferences up
+                    ON t.id = up.theme_id AND up.user_id = ?
                     ORDER BY t.id
                     """,
                     (user_id,),
@@ -544,7 +554,7 @@ class Database:
         # Получаем текущую оценку
         cursor.execute(
             """
-            SELECT score FROM user_preferences 
+            SELECT score FROM user_preferences
             WHERE user_id = ? AND theme_id = ?
             """,
             (user_id, theme_id),
@@ -563,10 +573,10 @@ class Database:
         # Обновляем в базе
         cursor.execute(
             """
-            INSERT OR REPLACE INTO user_preferences 
+            INSERT OR REPLACE INTO user_preferences
             (user_id, theme_id, score, interactions, last_updated)
             VALUES (?, ?, ?, COALESCE(
-                (SELECT interactions + 1 FROM user_preferences 
+                (SELECT interactions + 1 FROM user_preferences
                  WHERE user_id = ? AND theme_id = ?), 1
             ), CURRENT_TIMESTAMP)
             """,
@@ -648,8 +658,8 @@ class Database:
                 cursor = conn.cursor()
                 cursor.execute(
                     """
-                    INSERT OR REPLACE INTO interactions 
-                    (user_id, joke_id, liked) 
+                    INSERT OR REPLACE INTO interactions
+                    (user_id, joke_id, liked)
                     VALUES (?, ?, ?)
                     """,
                     (user_id, joke_id, liked),
@@ -675,13 +685,15 @@ class Database:
             with get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute(
-                    "SELECT 1 FROM favorites WHERE user_id = ? AND joke_id = ?",
+                    "SELECT 1 FROM favorites "
+                    "WHERE user_id = ? AND joke_id = ?",
                     (user_id, joke_id),
                 )
 
                 if cursor.fetchone():
                     cursor.execute(
-                        "DELETE FROM favorites WHERE user_id = ? AND joke_id = ?",
+                        "DELETE FROM favorites "
+                        "WHERE user_id = ? AND joke_id = ?",
                         (user_id, joke_id),
                     )
                     return False, "❌ Удалено из избранного"
@@ -711,7 +723,7 @@ class Database:
                 cursor = conn.cursor()
                 cursor.execute(
                     """
-                    SELECT j.id, j.text 
+                    SELECT j.id, j.text
                     FROM jokes j
                     JOIN favorites f ON j.id = f.joke_id
                     WHERE f.user_id = ? AND j.is_approved = 1
@@ -745,8 +757,8 @@ class Database:
                 cursor = conn.cursor()
 
                 query = """
-                    SELECT id, text, is_approved, status, created_at 
-                    FROM jokes 
+                    SELECT id, text, is_approved, status, created_at
+                    FROM jokes
                     WHERE author_id = ?
                 """
                 params = [user_id]
@@ -814,43 +826,38 @@ class Database:
             with get_connection() as conn:
                 cursor = conn.cursor()
 
-                cursor.execute(
-                    """
-                    SELECT t.id, t.name, COUNT(jt.joke_id) as count
-                    FROM themes t
-                    LEFT JOIN joke_themes jt ON t.id = jt.theme_id
-                    GROUP BY t.id
-                    """
-                )
+                # Простой и безопасный запрос
+                cursor.execute('''
+                    SELECT name, COUNT(*) as theme_count
+                    FROM themes
+                    GROUP BY id
+                    ORDER BY id
+                ''')
 
                 stats = []
-                for row in cursor.fetchall():
-                    cursor.execute(
-                        """
-                        SELECT COUNT(DISTINCT jt.joke_id) as approved_count
-                        FROM joke_themes jt
-                        JOIN jokes j ON jt.joke_id = j.id
-                        WHERE jt.theme_id = ? AND j.is_approved = 1
-                        """,
-                        (row["id"],),
-                    )
+                rows = cursor.fetchall()
 
-                    approved_row = cursor.fetchone()
-                    approved_count = (
-                        approved_row["approved_count"] if approved_row else 0
-                    )
-
-                    stats.append(
-                        {
-                            "name": row["name"],
-                            "total": row["count"],
-                            "approved": approved_count,
-                        }
-                    )
+                for row in rows:
+                    # Безопасный доступ к данным
+                    if row and len(row) > 0:
+                        stats.append({
+                            'name': row['name']
+                            if 'name' in row.keys()
+                            else 'Неизвестно',
+                            'count': row['theme_count']
+                            if 'theme_count' in row.keys()
+                            else 0
+                        })
+                    else:
+                        stats.append({'name': 'Ошибка', 'count': 0})
 
                 return stats
-        except sqlite3.Error as e:
+
+        except Exception as e:
             print(f"❌ Ошибка получения статистики: {e}")
+            # Для отладки
+            import traceback
+            traceback.print_exc()
             return []
 
 

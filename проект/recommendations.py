@@ -107,11 +107,14 @@ class ThemeBasedRecommender:
             self._update_view_history(user_id)
             joke = self._try_exploration_joke(user_id)
             if joke:
-                msg = f"🎲 Показан исследовательский анекдот для пользователя {user_id}"
+                msg = (f"🎲 Показан исследовательский анекдот "
+                       f"для пользователя {user_id}")
                 print(msg)
                 return joke
 
-            theme_probabilities = self._calculate_theme_probabilities(preferences)
+            theme_probabilities = self._calculate_theme_probabilities(
+                preferences
+            )
 
             if theme_probabilities:
                 print(f"📊 Вероятности тем для пользователя {user_id}:")
@@ -119,17 +122,24 @@ class ThemeBasedRecommender:
                     print(f"  Тема {theme_id}: {prob:.2%}")
 
             if not theme_probabilities:
-                msg = f"⚠️ Все вероятности нулевые для пользователя {user_id}"
+                msg = (f"⚠️ Все вероятности нулевые для "
+                       f"пользователя {user_id}")
                 print(msg)
                 return self._get_fallback_joke(user_id)
 
-            chosen_theme = self._choose_theme_by_probability(theme_probabilities)
-            print(f"🎯 Выбрана тема {chosen_theme} для пользователя {user_id}")
+            chosen_theme = self._choose_theme_by_probability(
+                theme_probabilities
+            )
+            print(f"🎯 Выбрана тема {chosen_theme} "
+                  f"для пользователя {user_id}")
 
-            joke = self._search_joke_in_theme(user_id, chosen_theme, preferences)
+            joke = self._search_joke_in_theme(
+                user_id, chosen_theme, preferences
+            )
 
             if joke:
-                msg = f"✅ Найден анекдот #{joke['id']} в теме {chosen_theme}"
+                msg = (f"✅ Найден анекдот #{joke['id']} "
+                       f"в теме {chosen_theme}")
                 print(msg)
                 return joke
 
@@ -176,7 +186,8 @@ class ThemeBasedRecommender:
         :rtype: dict or None
         """
         if random.random() < self.exploration_rate:
-            msg = f"🔍 Исследование: показываю случайный анекдот пользователю {user_id}"
+            msg = (f"🔍 Исследование: показываю случайный анекдот "
+                   f"пользователю {user_id}")
             print(msg)
             return self._get_random_joke_with_exclusions(user_id)
         return None
@@ -192,7 +203,8 @@ class ThemeBasedRecommender:
         """
         joke = self._get_random_joke_with_exclusions(user_id)
         if joke:
-            msg = f"🔄 Запасной вариант: случайный анекдот #{joke['id']}"
+            msg = (f"🔄 Запасной вариант: случайный анекдот "
+                   f"#{joke['id']}")
             print(msg)
         return joke
 
@@ -273,8 +285,10 @@ class ThemeBasedRecommender:
                 for theme, prob in theme_probabilities
             ]
 
-        return [(theme, 1.0 / len(theme_probabilities))
-                for theme, _ in theme_probabilities]
+        return [
+            (theme, 1.0 / len(theme_probabilities))
+            for theme, _ in theme_probabilities
+        ]
 
     def _choose_theme_by_probability(self, theme_probabilities):
         """
@@ -373,26 +387,6 @@ class ThemeBasedRecommender:
         )
 
         return profile
-
-    def reset_user_history(self, user_id):
-        """
-        Сбросить историю просмотров пользователя.
-
-        :param user_id: ID пользователя
-        :type user_id: int
-        :returns: Результат сброса
-        :rtype: bool
-        """
-        try:
-            if user_id in self.user_view_history:
-                del self.user_view_history[user_id]
-                print(f"✅ История пользователя {user_id} сброшена")
-                return True
-            return False
-
-        except KeyError:
-            print(f"⚠️ Пользователь {user_id} не найден в истории")
-            return False
 
     def get_system_stats(self):
         """
