@@ -32,7 +32,7 @@
       
       <div class="navlinks">
         <span class="navbar-brand">
-          database_sqlite <a href="index.html">API Documentation</a>
+          <a href="." class="projecthome">Анекдот-бот</a> <a href="index.html">API Documentation</a>
         </span>
 
         <a href="moduleIndex.html">
@@ -322,7 +322,7 @@
 
       <div class="thingTitle">
         <span>Module</span>
-        <code><a href="index.html" class="internal-link" title="The parent of this class">database<wbr></wbr>_sqlite</a></code> 
+        <code><a href="database_sqlite.html" class="internal-link" title="The parent of this class">database<wbr></wbr>_sqlite</a></code> 
       </div>
       
       <div>
@@ -356,7 +356,7 @@
         
 
         
-            <div class="itemName"><code><a href="index.html#get_connection" class="internal-link" title="database_sqlite.get_connection">get<wbr></wbr>_connection</a></code>
+            <div class="itemName"><code><a href="database_sqlite.html#get_connection" class="internal-link" title="database_sqlite.get_connection">get<wbr></wbr>_connection</a></code>
             </div>
         
 
@@ -375,7 +375,7 @@
         
 
         
-            <div class="itemName"><code><a href="index.html#DB_FILE" class="internal-link" title="database_sqlite.DB_FILE">DB<wbr></wbr>_FILE</a></code>
+            <div class="itemName"><code><a href="database_sqlite.html#DB_FILE" class="internal-link" title="database_sqlite.DB_FILE">DB<wbr></wbr>_FILE</a></code>
             </div>
         
 
@@ -385,7 +385,7 @@
         
 
         
-            <div class="itemName"><code><a href="index.html#db" class="internal-link" title="database_sqlite.db">db</a></code>
+            <div class="itemName"><code><a href="database_sqlite.html#db" class="internal-link" title="database_sqlite.db">db</a></code>
             </div>
         
 
@@ -414,7 +414,7 @@
         
 
         <div class="page-header">
-          <h1 class="class"><code><code><a href="index.html" class="internal-link">database_sqlite</a></code><wbr></wbr>.<code><a href="database_sqlite.Database.html" class="internal-link" title="database_sqlite.Database">Database</a></code></code></h1>
+          <h1 class="class"><code><code><a href="database_sqlite.html" class="internal-link">database_sqlite</a></code><wbr></wbr>.<code><a href="database_sqlite.Database.html" class="internal-link" title="database_sqlite.Database">Database</a></code></code></h1>
           <div id="show-private">
             <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
           </div>
@@ -425,22 +425,24 @@
         </div>
 
         <div class="extrasDocstring">
-          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">Database</span>:</code></p><p><a href="classIndex.html#database_sqlite.Database">View In Hierarchy</a></p>
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">Database</span>:</code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="database_sqlite.Database.__init__">Database()</a></code></p><p><a href="classIndex.html#database_sqlite.Database">View In Hierarchy</a></p>
         </div>
 
         <div class="moduleDocstring">
-          <div><p class="pre">Класс для работы с базой данных анекдотов.</p></div>
+          <div><p>Класс для работы с базой данных анекдотов.</p>
+<p>:ivar DB_FILE: Путь к файлу базы данных :type DB_FILE: str</p>
+</div>
         </div>
 
         <div id="split-tables">
-          <table class="children sortable" id="id2">
+          <table class="children sortable" id="id4">
   
   
   <tr class="method">
     
     <td>Method</td>
     <td><code><a href="#__init__" class="internal-link" title="database_sqlite.Database.__init__">__init__</a></code></td>
-    <td><span class="rst-undocumented">Undocumented</span></td>
+    <td>Инициализация объекта базы данных.</td>
   </tr><tr class="method">
     
     <td>Method</td>
@@ -556,7 +558,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p>Инициализация объекта базы данных.</p>
+<p>:returns: Экземпляр класса Database :rtype: Database</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -580,7 +584,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Добавить анекдот в избранное.</p></div>
+    <div><p>Добавить анекдот в избранное.</p>
+<p>:param user_id: ID пользователя :type user_id: int :param joke_id: ID анекдота :type joke_id: int :returns: Кортеж (успех, сообщение) :rtype: tuple :raises sqlite3.Error: При ошибке работы с базой данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -604,7 +610,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Добавить взаимодействие.</p></div>
+    <div><p>Добавить взаимодействие.</p>
+<p>:param user_id: ID пользователя :type user_id: int :param joke_id: ID анекдота :type joke_id: int :param liked: Оценка пользователя (нравится/не нравится) :type liked: bool :returns: Флаг успешного добавления :rtype: bool :raises sqlite3.Error: При ошибке добавления в базу данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -628,7 +636,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Добавить анекдот от пользователя (на модерацию).</p></div>
+    <div><p>Добавить анекдот от пользователя (на модерацию).</p>
+<p>:param text: Текст анекдота :type text: str :param author_id: ID автора анекдота :type author_id: int :returns: Информация о добавленном анекдоте или None :rtype: dict or None :raises sqlite3.Error: При ошибке добавления в базу данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -652,7 +662,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Определить темы анекдота по тексту.</p></div>
+    <div><p>Определить темы анекдота по тексту.</p>
+<p>:param joke_text: Текст анекдота :type joke_text: str :returns: Список ID тем анекдота :rtype: list</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -676,7 +688,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить темы анекдота.</p></div>
+    <div><p>Получить темы анекдота.</p>
+<p>:param joke_id: ID анекдота :type joke_id: int :returns: Список тем анекдота :rtype: list :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -700,7 +714,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить или создать пользователя.</p></div>
+    <div><p>Получить или создать пользователя.</p>
+<p>:param telegram_id: Уникальный идентификатор пользователя в Telegram :type telegram_id: int :param username: Имя пользователя в Telegram :type username: str or None :param first_name: Имя пользователя :type first_name: str :param last_name: Фамилия пользователя :type last_name: str or None :returns: Словарь с данными пользователя :rtype: dict :raises sqlite3.Error: При ошибке работы с базой данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -724,7 +740,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить количество анекдотов на модерации.</p></div>
+    <div><p>Получить количество анекдотов на модерации.</p>
+<p>:returns: Количество анекдотов на модерации :rtype: int :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -748,7 +766,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить случайный одобренный анекдот.</p></div>
+    <div><p>Получить случайный одобренный анекдот.</p>
+<p>:param excluded_ids: Список ID анекдотов для исключения :type excluded_ids: list or tuple or set or None :param theme_id: ID темы для фильтрации :type theme_id: int or None :returns: Словарь с анекдотом или None :rtype: dict or None :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -772,7 +792,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить статистику по темам.</p></div>
+    <div><p>Получить статистику по темам.</p>
+<p>:returns: Статистика по темам :rtype: list :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -796,7 +818,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить избранные анекдоты пользователя.</p></div>
+    <div><p>Получить избранные анекдоты пользователя.</p>
+<p>:param user_id: ID пользователя :type user_id: int :returns: Список избранных анекдотов :rtype: list :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -820,7 +844,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить взаимодействия пользователя.</p></div>
+    <div><p>Получить взаимодействия пользователя.</p>
+<p>:param user_id: ID пользователя :type user_id: int :returns: Список ID анекдотов, с которыми взаимодействовал пользователь :rtype: list :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -844,7 +870,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить анекдоты пользователя.</p></div>
+    <div><p>Получить анекдоты пользователя.</p>
+<p>:param user_id: ID пользователя :type user_id: int :param status: Статус анекдота для фильтрации :type status: str or None :returns: Список анекдотов пользователя :rtype: list :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -868,7 +896,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Получить предпочтения пользователя по темам.</p></div>
+    <div><p>Получить предпочтения пользователя по темам.</p>
+<p>:param user_id: ID пользователя :type user_id: int :returns: Словарь предпочтений пользователя :rtype: dict :raises sqlite3.Error: При ошибке запроса к базе данных</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -892,7 +922,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Инициализация базы данных с темами.</p></div>
+    <div><p>Инициализация базы данных с темами.</p>
+<p>:raises sqlite3.Error: При ошибке создания таблиц</p>
+</div>
   </div>
 </div><div class="basemethod">
   
@@ -916,7 +948,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Обновить предпочтения пользователя на основе оценки анекдота.</p></div>
+    <div><p>Обновить предпочтения пользователя на основе оценки анекдота.</p>
+<p>:param user_id: ID пользователя :type user_id: int :param joke_id: ID анекдота :type joke_id: int :param liked: Оценка пользователя (нравится/не нравится) :type liked: bool :returns: Флаг успешного обновления :rtype: bool :raises sqlite3.Error: При ошибке обновления базы данных</p>
+</div>
   </div>
 </div><div class="basemethod private">
   
@@ -940,7 +974,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Добавить начальные анекдоты с темами.</p></div>
+    <div><p>Добавить начальные анекдоты с темами.</p>
+<p>:param cursor: Курсор базы данных :type cursor: sqlite3.Cursor</p>
+</div>
   </div>
 </div><div class="basemethod private">
   
@@ -964,7 +1000,9 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p class="pre">Обновить предпочтение для одной темы.</p></div>
+    <div><p>Обновить предпочтение для одной темы.</p>
+<p>:param cursor: Курсор базы данных :type cursor: sqlite3.Cursor :param user_id: ID пользователя :type user_id: int :param theme: Данные темы :type theme: dict :param liked: Оценка пользователя (нравится/не нравится) :type liked: bool</p>
+</div>
   </div>
 </div>
         </div>
@@ -976,9 +1014,9 @@
 
   
   <div class="container-fluid">
-    <a href="index.html">API Documentation</a> for database_sqlite,
+    <a href="index.html">API Documentation</a> for <a href="." class="projecthome">Анекдот-бот</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    25.10.1 at 2025-12-18 12:58:47.
+    25.10.1 at 2025-12-20 11:53:30.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
